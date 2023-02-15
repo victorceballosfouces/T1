@@ -13,7 +13,7 @@ Per llegir, escriure i representar un fitxer en format `*.wav` en python podem f
 
 - Numpy:
 ```python
-    import numpy as np
+import numpy as np
 ```
 - Matplotlib: 
 ```python
