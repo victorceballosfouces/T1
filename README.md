@@ -176,6 +176,9 @@ sf.write('so_exemple4k.wav', x, fm)  # Escriptura del senyal a un fitxer en form
 
     - Insereix a continuació una gràfica que mostri 5 períodes del senyal i la seva transformada.
      
+     ![5 períodes senyal](img/2.1.png)
+     
+     ![Transformada](img/2.2.png)
      
 
     - Explica el resultat del apartat anterior.
