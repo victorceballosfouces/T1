@@ -138,6 +138,8 @@ sf.write('so_exemple4k.wav', x, fm)  # Escriptura del senyal a un fitxer en form
 
 2. Modifica el programa per considerar com a senyal a analitzar el senyal del fitxer wav que has creat (`x_r, fm = sf.read('nom_fitxer.wav')`).
 
+
+
     El codi pero llegir l'anterior exemple de $f_x = 4$ kHz:
      ```python
      x_r, fm = sf.read('so_exemple4k.wav')     # Llegim l'exemple prèviament creat
