@@ -106,6 +106,21 @@ plt.show()                            # Per mostrar els grafics
 
 1. Reprodueix l'exemple fent servir diferents freqüències per la sinusoide. Al menys considera $f_x = 4$ kHz, a banda d'una
     freqüència pròpia en el marge audible. Comenta els resultats.
+    
+```python
+T= 2.5                               # Durada de T segons
+fm=8000                              # Freqüència de mostratge en Hz
+fx=4000                              # Freqüència de la sinusoide
+A=4                                  # Amplitud de la sinusoide
+pi=np.pi                             # Valor del número pi
+L = int(fm * T)                      # Nombre de mostres del senyal digital
+Tm=1/fm                              # Període de mostratge
+t=Tm*np.arange(L)                    # Vector amb els valors de la variable temporal, de 0 a T
+x = A * np.cos(2 * pi * fx * t)      # Senyal sinusoidal
+sf.write('so_exemple4k.wav', x, fm)  # Escriptura del senyal a un fitxer en format wav
+ ```
+    
+    
 
 2. Modifica el programa per considerar com a senyal a analitzar el senyal del fitxer wav que has creat (`x_r, fm = sf.read('nom_fitxer.wav')`).
 
