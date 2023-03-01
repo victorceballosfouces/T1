@@ -2,7 +2,6 @@
 
 ## Nom i cognoms:
 
-
 ## Representació temporal i freqüencial de senyals d'àudio
 
 ### Domini temporal
