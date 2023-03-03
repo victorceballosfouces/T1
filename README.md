@@ -104,8 +104,8 @@ plt.show()                            # Per mostrar els grafics
 
 ## Proves i exercicis a fer i entregar
 
-1. Reprodueix l'exemple fent servir diferents freqüències per la sinusoide. Al menys considera $f_x = 4$ kHz, a banda d'una
-    freqüència pròpia en el marge audible. Comenta els resultats.
+**1. Reprodueix l'exemple fent servir diferents freqüències per la sinusoide. Al menys considera $f_x = 4$ kHz, a banda d'una
+    freqüència pròpia en el marge audible. Comenta els resultats.**
     
  - Exemple $f_x = 4$ kHz: 
 ```python
@@ -120,6 +120,8 @@ t=Tm*np.arange(L)                    # Vector amb els valors de la variable temp
 x = A * np.cos(2 * pi * fx * t)      # Senyal sinusoidal
 sf.write('so_exemple4k.wav', x, fm)  # Escriptura del senyal a un fitxer en format wav
  ```
+ ![5 períodes senyal](img/1.1.png)
+ 
   - Exemple $f_x = 1$ kHz:
  ```python
 T= 2.5                               # Durada de T segons
@@ -133,12 +135,29 @@ t=Tm*np.arange(L)                    # Vector amb els valors de la variable temp
 x = A * np.cos(2 * pi * fx * t)      # Senyal sinusoidal
 sf.write('so_exemple4k.wav', x, fm)  # Escriptura del senyal a un fitxer en format wav
  ```
+ ![5 períodes senyal](img/1.2.png)
+ 
+ - Exemple $f_x = 220$ Hz:
+ ```python
+T= 2.5                               # Durada de T segons
+fm=8000                              # Freqüència de mostratge en Hz
+fx=220                              # Freqüència de la sinusoide
+A=4                                  # Amplitud de la sinusoide
+pi=np.pi                             # Valor del número pi
+L = int(fm * T)                      # Nombre de mostres del senyal digital
+Tm=1/fm                              # Període de mostratge
+t=Tm*np.arange(L)                    # Vector amb els valors de la variable temporal, de 0 a T
+x = A * np.cos(2 * pi * fx * t)      # Senyal sinusoidal
+sf.write('so_exemple220.wav', x, fm)  # Escriptura del senyal a un fitxer en format wav
+ ```
+ ![5 períodes senyal](img/1.3.png)
+    
+- Es reprodueixen les sinusoides amb tres freqüencies diferents, **4k-1k-220**. S'observa clarament com a mesura que augmenten la freqüència de la sinusoide, aquesta canvia cap a una representació molt més abrupte i rectangular que la original de 440 Hz.
     
     
+**2. Modifica el programa per considerar com a senyal a analitzar el senyal del fitxer wav que has creat (`x_r, fm = sf.read('nom_fitxer.wav')`).**
 
-2. Modifica el programa per considerar com a senyal a analitzar el senyal del fitxer wav que has creat (`x_r, fm = sf.read('nom_fitxer.wav')`).
-
-    El codi per llegir l'anterior exemple de $f_x = 4$ kHz:
+El codi per llegir l'anterior exemple de $f_x = 4$ kHz:
     
 ```python
 x_r, fm = sf.read('so_exemple4k.wav')     # Llegim l'exemple prèviament creat
@@ -184,13 +203,60 @@ plt.show()                            # Per mostrar els grafics
 
 - Explica el resultat del apartat anterior.
 
-3. Modifica el programa per representar el mòdul de la Transformada de Fourier en dB i l'eix d'abscisses en el marge de
-    $0$ a $f_m/2$ en Hz.
+**3. Modifica el programa per representar el mòdul de la Transformada de Fourier en dB i l'eix d'abscisses en el marge de
+    $0$ a $f_m/2$ en Hz.**
+    
+El codi per la transformada a dB:
+    
+```python
+T= 2.5                               # Durada de T segons
+fm=8000                              # Freqüència de mostratge en Hz
+fx=440                               # Freqüència de la sinusoide
+A=4                                  # Amplitud de la sinusoide
+pi=np.pi                             # Valor del número pi
+L = int(fm * T)                      # Nombre de mostres del senyal digital
+Tm=1/fm                              # Període de mostratge
+t=Tm*np.arange(L)                    # Vector amb els valors de la variable temporal, de 0 a T
+x = A * np.cos(2 * pi * fx * t)      # Senyal sinusoidal
+sf.write('so_exemple440.wav', x, fm) # Escriptura del senyal a un fitxer en format wav
 
-    - Comprova que la mesura de freqüència es correspon amb la freqüència de la sinusoide que has fet servir.
+Tx=1/fx                                   # Període del senyal
+Ls=int(fm*5*Tx)                           # Nombre de mostres corresponents a 5 períodes de la sinusoide
 
-    - Com pots identificar l'amplitud de la sinusoide a partir de la representació de la transformada?
-      Comprova-ho amb el senyal generat.
+plt.figure(0)                             # Nova figura
+plt.plot(t[0:Ls], x[0:Ls])                # Representació del senyal en funció del temps
+plt.xlabel('t en segons')                 # Etiqueta eix temporal
+plt.title('5 periodes de la sinusoide')   # Títol del gràfic
+plt.show()                                # Visualització de l'objecte gràfic. 
+
+N=5000                                    # Dimensió de la transformada discreta
+X=fft(x[0:L], N)                          # Càlcul de la transformada de 5 períodes de la sinusoide
+k=np.arange(N)                            # Vector amb els valors 0≤  k<
+Y = 20*np.log10(np.abs(X)/max(np.abs(X))) # Representació en dB
+fk = k[0:N//2+1]*fm/N                     # Relació entre l'índex k y la freqüència en Hz
+
+plt.figure(1)                                                              # Nova figura
+plt.subplot(211)                                                           # Espai per representar el mòdul
+plt.plot(fk,Y[0:N//2+1])                                                   # Representació del mòdul de la transformada
+plt.title(f'Transformada del senyal de Ls={L} mostres amb DFT de N={N}')   # Etiqueta del títol
+plt.ylabel('dB')                                                           # Etiqueta de mòdul
+plt.subplot(212)                                                           # Espai per representar la fase
+plt.plot(fk,np.unwrap(np.angle(X[0:N//2+1])))                              # Representació de la fase de la transformad, desenroscada
+plt.xlabel('Hz')                                                           # Etiqueta de l'eix d'abscisses 
+plt.ylabel('$\phi_x[k]$')                                                  # Etiqueta de la fase en Latex
+plt.show()                                                                 # Per mostrar els grafics
+```
+
+**- Comprova que la mesura de freqüència es correspon amb la freqüència de la sinusoide que has fet servir.**
+- S'observa perfectament com la sinusoide es correspon amb la mesura de freqüència utilitzada anteriorment a la pràctica, 440 Hz.
+![5 períodes senyal](img/3.1.png)
+
+
+**- Com pots identificar l'amplitud de la sinusoide a partir de la representació de la transformada?
+  Comprova-ho amb el senyal generat.**
+- Actualment no podem visualitzar l'amplitud de la sinusoide a partir de la transformada perquè no tenim el resultat normalitzat entre 0 i 1.
+![Transformada](img/3.2.png)
+
 
     > NOTES:
     >
@@ -202,14 +268,52 @@ plt.show()                            # Per mostrar els grafics
     >
     > $f_k = \frac{k}{N} f_m$
 
-4. Tria un fitxer d'àudio en format wav i mono (el pots aconseguir si en tens amb altres formats amb el programa Audacity).
-    Llegeix el fitxer d'àudio i comprova:
+**4. Tria un fitxer d'àudio en format wav i mono (el pots aconseguir si en tens amb altres formats amb el programa Audacity).**
+   **Llegeix el fitxer d'àudio i comprova:**
 
-    - Freqüència de mostratge.
-    - Nombre de mostres de senyal.
-    - Tria un segment de senyal de 25ms i insereix una gráfica amb la seva evolució temporal.
-    - Representa la seva transformada en dB en funció de la freqüència, en el marge $0\le f\le f_m/2$.
-    - Quines son les freqüències més importants del segment triat?
+   - Freqüència de mostratge.
+   - Nombre de mostres de senyal.
+   - Tria un segment de senyal de 25ms i insereix una gráfica amb la seva evolució temporal.
+   - Representa la seva transformada en dB en funció de la freqüència, en el marge $0\le f\le f_m/2$.
+   - Quines son les freqüències més importants del segment triat?
+
+El codi per resoldre els anteriors apartats:
+
+```python
+x_p, fm = sf.read('luzbel44.wav')         # Llegim l'exemple prèviament creat
+T = 0.025                                 # Periode
+Ls=int(fm*T)                              # Nombre de mostres corresponents a T = 0.025 període
+
+plt.figure(0)                             # Nova figura
+plt.plot(t[0:Ls], x_p[0:Ls])              # Representació del senyal en funció del temps
+plt.xlabel('t en segons')                 # Etiqueta eix temporal
+plt.title('luzbel44')                     # Títol del gràfic
+plt.show()                                # Visualització de l'objecte gràfic.
+
+#Transformada
+
+N=5000                                    # Dimensió de la transformada discreta
+X=fft(x_p[0 : Ls], N)                     # Càlcul de la transformada de 5 períodes de la sinusoide
+k=np.arange(N)
+Y2 = 20*np.log10(np.abs(X)/max(np.abs(X)))
+fk = k[0:N//2+1]*fm/N
+
+plt.figure(1)                         # Nova figura
+plt.subplot(211)                      # Espai per representar el mòdul
+plt.plot(fk,Y2[0:N//2+1])             # Representació del mòdul de la transformada
+plt.title(f'Transformada del senyal de Ls={Ls} mostres amb DFT de N={N}')   # Etiqueta del títol
+plt.ylabel('dB')                      # Etiqueta de mòdul
+plt.subplot(212)                      # Espai per representar la fase
+plt.plot(fk,np.unwrap(np.angle(X[0:N//2+1])))    # Representació de la fase de la transformad, desenroscada
+plt.xlabel('Hz')                      # Etiqueta de l'eix d'abscisses 
+plt.ylabel('$\phi_x[k]$')             # Etiqueta de la fase en Latex
+plt.show() 
+```
+![0.025 període senyal](img/4.1.png)
+
+![Transformada](img/4.2.png)
+
+- Com indica el codi, el nombre de mostres corresponents a un període de T=0.025 es igual a Ls=1102. La freqüència de mostratge la llegim directament de l'audio amb sf.read. Respecte a quines freqüències poden ser les mes importants pel segment triat, si observem la transformada en dBs veurem que les més actives son aquelles que es situen en el rang de 6000Hz, 7000Hz, 8000Hz, 9000Hz, fins arribar als 10000Hz.
 
 ## Entrega
 
