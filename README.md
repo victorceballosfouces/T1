@@ -175,14 +175,14 @@ plt.ylabel('$\phi_x[k]$')             # Etiqueta de la fase en Latex
 plt.show()                            # Per mostrar els grafics
  ```
 
-    - Insereix a continuació una gràfica que mostri 5 períodes del senyal i la seva transformada.
+- Insereix a continuació una gràfica que mostri 5 períodes del senyal i la seva transformada.
      
      ![5 períodes senyal](img/2.1.png)
      
      ![Transformada](img/2.2.png)
      
 
-    - Explica el resultat del apartat anterior.
+- Explica el resultat del apartat anterior.
 
 3. Modifica el programa per representar el mòdul de la Transformada de Fourier en dB i l'eix d'abscisses en el marge de
     $0$ a $f_m/2$ en Hz.
