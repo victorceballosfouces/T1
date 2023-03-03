@@ -145,16 +145,18 @@ sf.write('so_exemple4k.wav', x, fm)  # Escriptura del senyal a un fitxer en form
      fx = 4000                                 # Freqüència de la sinusoide
      Tx=1/fx                                   # Període del senyal
      Ls=int(fm*5*Tx)                           # Nombre de mostres corresponents a 5 períodes de la sinusoide
-
+     
+     
      plt.figure(0)                             # Nova figura
      plt.plot(t[0:Ls], x_r[0:Ls])              # Representació del senyal en funció del temps
      plt.xlabel('t en segons')                 # Etiqueta eix temporal
      plt.title('5 periodes de la sinusoide')   # Títol del gràfic
      plt.show()                                # Visualització de l'objecte gràfic.
-     ```
      
-     ```python
+     
+     
      #Transformada
+     
      from numpy.fft import fft     # Importem la funció fft
      N=5000                        # Dimensió de la transformada discreta
      X=fft(x_r[0 : Ls], N)         # Càlcul de la transformada de 5 períodes de la sinusoide
